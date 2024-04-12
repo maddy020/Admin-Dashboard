@@ -11,7 +11,13 @@ interface MySession extends Session {
   supabaseAccessToken: string;
 }
 
-const TableThree = ({ modelData }: { modelData: Model[] }) => {
+const TableThree = ({
+  modelData,
+  setModelData,
+}: {
+  modelData: Model[];
+  setModelData: React.Dispatch<React.SetStateAction<Model[]>>;
+}) => {
   const Base_Url = process.env.NEXT_PUBLIC_BASE_URL;
   const { data, status } = useSession();
   const session = data as MySession;
@@ -22,7 +28,7 @@ const TableThree = ({ modelData }: { modelData: Model[] }) => {
           Authorization: `Bearer ${session?.supabaseAccessToken}`,
         },
       });
-      window.location.reload();
+      setModelData(modelData?.filter((item) => item.id !== key));
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +55,7 @@ const TableThree = ({ modelData }: { modelData: Model[] }) => {
             </tr>
           </thead>
           <tbody>
-            {modelData.map((packageItem, key) => (
+            {modelData?.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   Image
@@ -70,7 +76,11 @@ const TableThree = ({ modelData }: { modelData: Model[] }) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <Add item={packageItem} Data={modelData} />
+                    <Add
+                      item={packageItem}
+                      modelData={modelData}
+                      setModelData={setModelData}
+                    />
                     {/* <button className="hover:text-primary">
                       <svg
                         className="fill-current"

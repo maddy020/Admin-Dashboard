@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "react-modal";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Input from "../InputBox/InputBox";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -14,10 +14,12 @@ interface MySession extends Session {
 
 export default function Add({
   item,
-  Data,
+  modelData,
+  setModelData,
 }: {
   item: Model | null;
-  Data: Array<Model>;
+  modelData: Array<Model | null>;
+  setModelData: React.Dispatch<React.SetStateAction<Model[]>>;
 }) {
   const Base_Url = process.env.NEXT_PUBLIC_BASE_URL;
   const [modalisOpen, setModalIsOpen] = useState(false);
@@ -80,8 +82,8 @@ export default function Add({
           Authorization: `Bearer ${session?.supabaseAccessToken}`,
         },
       });
-      //   if (Data.length === 0) setData([result.data.data]);
-      //   setData([...Data, result.data.data]);
+      if (modelData?.length === 0) setModelData([result.data.data]);
+      setModelData([...modelData, result.data.data]);
       console.log(result.data.data.profile_images["0"]);
       closeModal();
     } catch (error) {
