@@ -1,47 +1,47 @@
-import { Package } from "@/types/package";
+"use client";
 
-const packageData: Package[] = [
-  {
-    name: "Free package",
-    price: 0.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Business Package",
-    price: 99.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Unpaid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Pending",
-  },
-];
+import { Model } from "@/types/model";
+import Image from "next/image";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
-const TableThree = () => {
+import Add from "../Modal/Add";
+interface MySession extends Session {
+  supabaseAccessToken: string;
+}
+
+const TableThree = ({ modelData }: { modelData: Model[] }) => {
+  const Base_Url = process.env.NEXT_PUBLIC_BASE_URL;
+  const { data, status } = useSession();
+  const session = data as MySession;
+  const deleteModal = async (key: number) => {
+    try {
+      await axios.delete(`${Base_Url}/admin/delete/${key}`, {
+        headers: {
+          Authorization: `Bearer ${session?.supabaseAccessToken}`,
+        },
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
+              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+                Profile_Image
+              </th>
               <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
-                Package
+                Name
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
-                Invoice date
-              </th>
-              <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                Status
+                Id
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -49,35 +49,28 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            {packageData.map((packageItem, key) => (
+            {modelData.map((packageItem, key) => (
               <tr key={key}>
+                <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                  <Image
+                    src={packageItem.profile_images["0"]}
+                    alt="p_image"
+                    width={48}
+                    height={48}
+                  />
+                </td>
                 <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
                     {packageItem.name}
                   </h5>
-                  <p className="text-sm">${packageItem.price}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.invoiceDate}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
-                      packageItem.status === "Paid"
-                        ? "bg-success text-success"
-                        : packageItem.status === "Unpaid"
-                          ? "bg-danger text-danger"
-                          : "bg-warning text-warning"
-                    }`}
-                  >
-                    {packageItem.status}
-                  </p>
+                  <p className="text-black dark:text-white">{packageItem.id}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary">
+                    <Add item={packageItem} Data={modelData} />
+                    {/* <button className="hover:text-primary">
                       <svg
                         className="fill-current"
                         width="18"
@@ -95,8 +88,11 @@ const TableThree = () => {
                           fill=""
                         />
                       </svg>
-                    </button>
-                    <button className="hover:text-primary">
+                    </button> */}
+                    <button
+                      className="hover:text-primary"
+                      onClick={() => deleteModal(packageItem.id)}
+                    >
                       <svg
                         className="fill-current"
                         width="18"

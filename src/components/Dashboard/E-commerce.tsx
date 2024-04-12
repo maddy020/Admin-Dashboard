@@ -8,7 +8,7 @@ import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import MapOne from "../Maps/MapOne";
 
-const ECommerce: React.FC = () => {
+const ChatDash: React.FC = () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -102,7 +102,7 @@ const ECommerce: React.FC = () => {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
-        <MapOne />
+        {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>
@@ -112,4 +112,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default ChatDash;
