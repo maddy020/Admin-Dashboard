@@ -12,7 +12,7 @@ export default function Input(props: Iprops) {
         type={props.type}
         defaultValue={props.value}
         placeholder={props.placevalue}
-        className="w-full rounded-full border p-2 text-black"
+        className="w-full rounded-lg border-2 border-slate-300 p-2 text-black focus:border-blue-700 focus:outline-none "
         required
         ref={props.vref}
       />

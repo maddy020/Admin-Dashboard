@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 const SignIn: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email") {
@@ -21,14 +22,14 @@ const SignIn: React.FC = () => {
   };
 
   const handleSignin = async () => {
-    console.log(username);
-    console.log(password);
-    const result = await signIn("credentials", {
-      username: username,
-      password: password,
-      redirect: true,
-      callbackUrl: "/dashboard",
-    });
+    try {
+      await signIn("credentials", {
+        username: username,
+        password: password,
+      });
+    } catch (error) {
+      console.error("Sign in failed", error);
+    }
   };
   return (
     <div className="px-10 py-[27.5px]">

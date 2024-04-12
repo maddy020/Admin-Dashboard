@@ -4,7 +4,7 @@ import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import { createClient } from "@supabase/supabase-js";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
-
+import Credentials from "next-auth/providers/credentials";
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
   process.env.NEXT_PUBLIC_SUPABASE_API ?? "",
@@ -13,18 +13,9 @@ const supabase = createClient(
 export const NEXT_AUTH_CONFIG: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
       credentials: {
-        username: {
-          label: "Email",
-          type: "email",
-          placeholder: "Email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "*******",
-        },
+        username: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         console.log("Checking authorization");
@@ -49,6 +40,7 @@ export const NEXT_AUTH_CONFIG: NextAuthOptions = {
       },
     }),
   ],
+
   pages: {
     // signIn: "/auth/signin",
     // signOut: "/api/auth/signin",

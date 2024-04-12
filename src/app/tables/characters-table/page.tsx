@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 const TablesPage = () => {
   const [modelData, setModelData] = useState<Model[]>([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function getServerData() {
       const Base_Url = process.env.NEXT_PUBLIC_BASE_URL;

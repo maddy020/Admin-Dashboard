@@ -260,19 +260,19 @@ export default function Add({
             <div className="flex justify-between pt-4">
               <button
                 onClick={closeModal}
-                className="w-1/3 rounded-3xl bg-[#C62744] px-10 py-2 text-white"
+                className="w-1/3 rounded-3xl bg-primary px-10 py-2 text-white hover:bg-[#17269e]"
               >
                 Cancel
               </button>
               {item === null ? (
                 <button
                   type="submit"
-                  className="w-1/3 rounded-3xl bg-[#C62744] px-10 py-2 text-white"
+                  className="w-1/3 rounded-3xl bg-primary px-10 py-2 text-white hover:bg-[#17269e]"
                 >
                   Save
                 </button>
               ) : (
-                <button className="w-1/3 rounded-3xl bg-[#C62744] px-10 py-2 text-white">
+                <button className="w-1/3 rounded-3xl bg-primary px-10 py-2 text-white hover:bg-[#17269e]">
                   Update
                 </button>
               )}
