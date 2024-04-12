@@ -52,12 +52,13 @@ const TableThree = ({ modelData }: { modelData: Model[] }) => {
             {modelData.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <Image
+                  Image
+                  {/* <Image
                     src={packageItem.profile_images["0"]}
                     alt="p_image"
                     width={48}
                     height={48}
-                  />
+                  /> */}
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
