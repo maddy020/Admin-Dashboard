@@ -109,7 +109,7 @@ export default function Add({
     <>
       {item === null ? (
         <div
-          className="flex cursor-pointer gap-2 rounded-full p-2 pl-6 pr-6 text-sm hover:bg-[#3a3e57]"
+          className="mb-2 flex w-44 cursor-pointer gap-2 rounded-lg px-6 py-2 text-sm hover:bg-[#3a3e57]"
           onClick={openModal}
         >
           <h1 className="text-lg font-semibold">Add Character</h1>

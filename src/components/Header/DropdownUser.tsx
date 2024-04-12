@@ -4,13 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const { data: session, status } = useSession();
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
   const router = useRouter();
   // close on click outside
+
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
@@ -45,10 +47,10 @@ const DropdownUser = () => {
         href="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+          <span className="block text-base font-medium text-black dark:text-white">
+            {session?.user?.name?.toLocaleUpperCase()}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-sm font-bold">Admin</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

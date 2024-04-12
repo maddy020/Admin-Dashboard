@@ -22,7 +22,7 @@ const TablesPage = () => {
       setModelData(serverData);
     }
     getServerData();
-  }, [modelData]);
+  }, []);
 
   return (
     <DefaultLayout>
