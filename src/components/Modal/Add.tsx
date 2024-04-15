@@ -36,8 +36,11 @@ export default function Add({
   const [files, setFiles] = useState<(File | null)[]>([]);
   const { data, status } = useSession();
   const session = data as MySession;
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = e.target.files;
+    console.log("ahdnle file change");
+    console.log("handleFilechange", images);
     if (!images) return alert("No images selected");
     if (images && images.length && images?.length > 3) {
       return alert("You can only upload 3 images");
@@ -76,6 +79,12 @@ export default function Add({
         description: descriptionref.current?.value,
       };
       formData.append("data", JSON.stringify(data));
+      console.log(files);
+      files.forEach((file) => {
+        if (file) {
+          formData.append("files", file);
+        }
+      });
       const result = await axios.post(`${Base_Url}/admin/create`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -251,7 +260,6 @@ export default function Add({
               <h1>Upload Images</h1>
               <input
                 type="file"
-                // value={item?.profile_images}
                 multiple
                 onChange={handleFileChange}
                 className="p-0"
