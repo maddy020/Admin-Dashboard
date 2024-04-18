@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
+  const [requests, setRequests] = useState([]);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -22,6 +24,19 @@ const DropdownNotification = () => {
     document.addEventListener("click", clickHandler);
     return () => document.removeEventListener("click", clickHandler);
   });
+
+  useEffect(() => {
+    const Base_Url = process.env.NEXT_PUBLIC_BASE_URL;
+    async function getRequests() {
+      const res = await axios.get(`${Base_Url}/admin/tokenRequests`, {
+        withCredentials: true,
+      });
+      setRequests(res.data);
+      console.log(res.data);
+      setNotifying(res.data.length > 0 ? true : false);
+    }
+    getRequests();
+  }, []);
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -80,69 +95,31 @@ const DropdownNotification = () => {
         </div>
 
         <ul className="flex h-auto flex-col overflow-y-auto">
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  Edit your information in a swipe
-                </span>{" "}
-                Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim.
-              </p>
+          {requests.map((request) => (
+            <li key={request.id}>
+              <Link
+                className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                href="#"
+              >
+                <p className="text-sm">
+                  <span className="text-black dark:text-white">
+                    {request.user.username}
+                  </span>{" "}
+                  has requested {request.requested_tokens} tokens
+                </p>
 
-              <p className="text-xs">12 May, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  It is a long established fact
-                </span>{" "}
-                that a reader will be distracted by the readable.
-              </p>
-
-              <p className="text-xs">24 Feb, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
-                </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
-              </p>
-
-              <p className="text-xs">04 Jan, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
-                </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
-              </p>
-
-              <p className="text-xs">01 Dec, 2024</p>
-            </Link>
-          </li>
+                <p className="text-xs">{request.createdAt}</p>
+                <div className="flex justify-end gap-4">
+                  <button className="rounded-lg border-2 border-slate-500 px-2 py-1 hover:bg-slate-800">
+                    View
+                  </button>
+                  <button className="rounded-lg border-2 border-slate-500 px-2 py-1 hover:bg-slate-800">
+                    Decline
+                  </button>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </li>

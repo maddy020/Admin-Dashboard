@@ -32,15 +32,21 @@ export default function Add({
   const ageref = useRef<HTMLInputElement>(null);
   const ethincityref = useRef<HTMLInputElement>(null);
   const descriptionref = useRef<HTMLInputElement>(null);
-
+  const tempref = useRef<HTMLInputElement>(null);
+  const topPref = useRef<HTMLInputElement>(null);
+  const topKref = useRef<HTMLInputElement>(null);
+  const repetitonPenaltyref = useRef<HTMLInputElement>(null);
+  const presencePenalytref = useRef<HTMLInputElement>(null);
+  const frequencyPenaltyref = useRef<HTMLInputElement>(null);
+  const stopref = useRef<HTMLInputElement>(null);
+  const maxtokenref = useRef<HTMLInputElement>(null);
+  const promptref = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<(File | null)[]>([]);
   const { data, status } = useSession();
   const session = data as MySession;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = e.target.files;
-    console.log("ahdnle file change");
-    console.log("handleFilechange", images);
     if (!images) return alert("No images selected");
     if (images && images.length && images?.length > 3) {
       return alert("You can only upload 3 images");
@@ -63,6 +69,7 @@ export default function Add({
       const formData = new FormData();
       const data = {
         name: nameref.current?.value,
+        description: descriptionref.current?.value,
         attributes: {
           "Personality Attributes": {
             Personality: personalityref.current?.value,
@@ -76,10 +83,19 @@ export default function Add({
             Ethincity: ethincityref.current?.value,
           },
         },
-        description: descriptionref.current?.value,
+        parameters: {
+          system_prompt: promptref.current?.value,
+          temperature: tempref.current?.value,
+          top_p: topPref.current?.value,
+          top_k: topKref.current?.value,
+          repetition_penalty: repetitonPenaltyref.current?.value,
+          presence_penalty: presencePenalytref.current?.value,
+          frequency_penalty: frequencyPenaltyref.current?.value,
+          stop: stopref.current?.value,
+          max_tokens: maxtokenref.current?.value,
+        },
       };
       formData.append("data", JSON.stringify(data));
-      console.log(files);
       files.forEach((file) => {
         if (file) {
           formData.append("files", file);
@@ -93,7 +109,6 @@ export default function Add({
       });
       if (modelData?.length === 0) setModelData([result.data.data]);
       setModelData([...modelData, result.data.data]);
-      console.log(result.data.data.profile_images["0"]);
       closeModal();
     } catch (error) {
       console.log(error);
@@ -122,7 +137,6 @@ export default function Add({
           onClick={openModal}
         >
           <h1 className="text-lg font-semibold">Add Character</h1>
-          {/* <Image src={adminplus} alt="add" /> */}
         </div>
       ) : (
         <button className="hover:text-primary" onClick={openModal}>
@@ -156,14 +170,25 @@ export default function Add({
           onSubmit={handleClick}
         >
           <h1 className="text-2xl text-black">Add Character</h1>
-          <div className="w-1/2">
-            <label htmlFor="">Name</label>
-            <Input
-              type="text"
-              placevalue=""
-              vref={nameref}
-              value={item?.name}
-            />
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="">Name</label>
+              <Input
+                type="text"
+                placevalue=""
+                vref={nameref}
+                value={item?.name}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Description</label>
+              <Input
+                type="text"
+                placevalue=""
+                vref={descriptionref}
+                value={item?.name}
+              />
+            </div>
           </div>
           <div>
             <h1>Personality Attributes</h1>
@@ -243,15 +268,91 @@ export default function Add({
                 />
               </div>
             </div>
-            <div></div>
             <div>
-              <label htmlFor="">Description</label>
-              <Input
-                type="text"
-                placevalue=""
-                vref={descriptionref}
-                value={item?.system_prompts?.description}
-              />
+              <h1>Modal Details</h1>
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <div>
+                  <label htmlFor="">System Prompt</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={promptref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Temperature</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={tempref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Top P</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={topPref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Top K</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={topKref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Repetition Penalty</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={repetitonPenaltyref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Presence Penalty</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={presencePenalytref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Frequency penalty</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={frequencyPenaltyref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Stop</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={stopref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="">Max Tokens</label>
+                  <Input
+                    type="text"
+                    placevalue=""
+                    vref={maxtokenref}
+                    value={item?.system_prompts?.description}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div>

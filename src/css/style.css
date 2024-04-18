@@ -285,4 +285,10 @@ input[type="search"]::-webkit-search-cancel-button {
     top: 0;
     left: 0;
   }
+  .modal_add {
+    width: 100%;
+    height: 100%;
+    padding-top: 5rem;
+    border-radius: 0;
+  }
 }

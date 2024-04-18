@@ -17,7 +17,6 @@ export default function Home() {
   useEffect(() => {
     async function getUserSession() {
       const session = await getSession();
-      console.log(session);
       if (session !== null) {
         router.push("/dashboard");
       } else router.push("/api/auth/signin");
