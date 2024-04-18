@@ -2,10 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 
+interface DropdownNotificationProps {
+  id: number;
+  user: {
+    username: string;
+  };
+  requested_tokens: number;
+  createdAt: string;
+}
+
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState<Array<DropdownNotificationProps>>(
+    [],
+  );
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -95,8 +106,8 @@ const DropdownNotification = () => {
         </div>
 
         <ul className="flex h-auto flex-col overflow-y-auto">
-          {requests.map((request) => (
-            <li key={request.id}>
+          {requests.map((request, id) => (
+            <li key={id}>
               <Link
                 className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
                 href="#"
