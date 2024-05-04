@@ -89,7 +89,7 @@ export const NEXT_AUTH_CONFIG: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return baseUrl + "/dashboard";
+      return baseUrl + "/tables/characters-table";
     },
   },
 };

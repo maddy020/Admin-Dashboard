@@ -18,7 +18,7 @@ export default function Home() {
     async function getUserSession() {
       const session = await getSession();
       if (session !== null) {
-        router.push("/dashboard");
+        router.push("/tables/characters-table");
       } else router.push("/api/auth/signin");
     }
     getUserSession();

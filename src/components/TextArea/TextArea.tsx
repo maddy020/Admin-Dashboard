@@ -8,8 +8,7 @@ interface Iprops {
 export default function Input(props: Iprops) {
   return (
     <>
-      <input
-        type={props.type}
+      <textarea
         defaultValue={props.value}
         placeholder={props.placevalue}
         className="w-full rounded-lg border-2 border-slate-300 p-2 text-black focus:border-blue-700 focus:outline-none "

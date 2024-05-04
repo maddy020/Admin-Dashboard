@@ -7,6 +7,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Model } from "@/types/model";
 import { Session } from "next-auth";
+import TextArea from "../TextArea/TextArea";
 
 interface MySession extends Session {
   supabaseAccessToken: string;
@@ -84,15 +85,15 @@ export default function Add({
           },
         },
         parameters: {
-          system_prompt: promptref.current?.value,
-          temperature: tempref.current?.value,
-          top_p: topPref.current?.value,
-          top_k: topKref.current?.value,
-          repetition_penalty: repetitonPenaltyref.current?.value,
-          presence_penalty: presencePenalytref.current?.value,
-          frequency_penalty: frequencyPenaltyref.current?.value,
-          stop: stopref.current?.value,
-          max_tokens: maxtokenref.current?.value,
+          system_prompt: promptref.current?.value || "",
+          temperature: tempref.current?.value || 0.7,
+          top_p: topPref.current?.value || 0.9,
+          top_k: topKref.current?.value || 0,
+          repetition_penalty: repetitonPenaltyref.current?.value || 1,
+          presence_penalty: presencePenalytref.current?.value || 0,
+          frequency_penalty: frequencyPenaltyref.current?.value || 0,
+          stop: stopref.current?.value || [],
+          max_tokens: maxtokenref.current?.value || 512,
         },
       };
       formData.append("data", JSON.stringify(data));
@@ -173,7 +174,7 @@ export default function Add({
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label htmlFor="">Name</label>
-              <Input
+              <TextArea
                 type="text"
                 placevalue=""
                 vref={nameref}
@@ -182,7 +183,7 @@ export default function Add({
             </div>
             <div>
               <label htmlFor="">Description</label>
-              <Input
+              <TextArea
                 type="text"
                 placevalue=""
                 vref={descriptionref}
@@ -195,7 +196,7 @@ export default function Add({
             <div className="grid grid-cols-2 gap-4 pt-4">
               <div>
                 <label htmlFor="">Personality</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={personalityref}
@@ -206,7 +207,7 @@ export default function Add({
               </div>
               <div>
                 <label htmlFor="">Occupation</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={occupationref}
@@ -217,7 +218,7 @@ export default function Add({
               </div>
               <div>
                 <label htmlFor="">Hobbies</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={hobbiesref}
@@ -226,7 +227,7 @@ export default function Add({
               </div>
               <div>
                 <label htmlFor="">Relationship</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={relationshipref}
@@ -242,7 +243,7 @@ export default function Add({
             <div className="grid grid-cols-2 gap-4 pt-4">
               <div>
                 <label htmlFor="">Body</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={bodyref}
@@ -251,7 +252,7 @@ export default function Add({
               </div>
               <div>
                 <label htmlFor="">Age</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={ageref}
@@ -260,7 +261,7 @@ export default function Add({
               </div>
               <div>
                 <label htmlFor="">Ethincity</label>
-                <Input
+                <TextArea
                   type="text"
                   placevalue=""
                   vref={ethincityref}
@@ -273,7 +274,7 @@ export default function Add({
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div>
                   <label htmlFor="">System Prompt</label>
-                  <Input
+                  <TextArea
                     type="text"
                     placevalue=""
                     vref={promptref}
@@ -336,7 +337,7 @@ export default function Add({
                 </div>
                 <div>
                   <label htmlFor="">Stop</label>
-                  <Input
+                  <TextArea
                     type="text"
                     placevalue=""
                     vref={stopref}
@@ -346,7 +347,7 @@ export default function Add({
                 <div>
                   <label htmlFor="">Max Tokens</label>
                   <Input
-                    type="text"
+                    type="number"
                     placevalue=""
                     vref={maxtokenref}
                     value={item?.system_prompts?.description}
