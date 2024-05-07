@@ -280,6 +280,17 @@ input[type="search"]::-webkit-search-cancel-button {
   z-index: 20;
   overflow-y: scroll;
 }
+.modal_request {
+  width: 30%;
+  height: 40%;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+}
 @media only screen and (max-width: 1024px) {
   .overlay {
     top: 0;

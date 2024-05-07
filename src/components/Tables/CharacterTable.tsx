@@ -3,10 +3,11 @@
 import { Model } from "@/types/model";
 import Image from "next/image";
 import axios from "axios";
+import Add from "../Modal/Add";
+
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 
-import Add from "../Modal/Add";
 interface MySession extends Session {
   supabaseAccessToken: string;
 }
